@@ -6,15 +6,95 @@ The original project was done by the Pokémon group in 2024–2025 using Oracle 
 
 Screenshots
 
-These screens use sample customer details.
+These 36 screenshots cover the main staff and customer pages. All customer details are fictional. Click an image to view it at full size.
 
-| Staff dashboard | Lens catalogue |
-| --- | --- |
-| Staff dashboard: docs/screenshots/staff-dashboard.png | Lens catalogue: docs/screenshots/lens-catalogue.png |
+Login and project information
 
-| Customer spectacle profile | Order details |
+| Login | Customer registration |
 | --- | --- |
-| Customer spectacle profile: docs/screenshots/spectacle-profile.png | Order details: docs/screenshots/order-details.png |
+| Login: docs/screenshots/login.jpg | Customer registration: docs/screenshots/signup.jpg |
+
+| About the project |
+| --- |
+| About the project: docs/screenshots/about.jpg |
+
+Staff overview and account
+
+| Staff dashboard | Staff account |
+| --- | --- |
+| Staff dashboard: docs/screenshots/staff-dashboard.jpg | Staff account: docs/screenshots/staff-account.jpg |
+
+| Update staff account |
+| --- |
+| Update staff account: docs/screenshots/edit-staff-account.jpg |
+
+Frames and lenses
+
+| Frame catalogue | Lens catalogue |
+| --- | --- |
+| Frame catalogue: docs/screenshots/frame-catalogue.jpg | Lens catalogue: docs/screenshots/lens-catalogue.jpg |
+
+| Frame details | Lens details |
+| --- | --- |
+| Frame details: docs/screenshots/frame-details.jpg | Lens details: docs/screenshots/lens-details.jpg |
+
+| Add frame | Add lens |
+| --- | --- |
+| Add frame: docs/screenshots/add-frame.jpg | Add lens: docs/screenshots/add-lens.jpg |
+
+| Edit frame | Edit lens |
+| --- | --- |
+| Edit frame: docs/screenshots/edit-frame.jpg | Edit lens: docs/screenshots/edit-lens.jpg |
+
+Customer management and spectacle profiles
+
+| Find a customer | Customer details |
+| --- | --- |
+| Find a customer: docs/screenshots/customer-search.jpg | Customer details: docs/screenshots/customer-details.jpg |
+
+| Update customer account | Customer spectacle profile |
+| --- | --- |
+| Update customer account: docs/screenshots/edit-customer.jpg | Customer spectacle profile: docs/screenshots/spectacle-profile.jpg |
+
+| Create spectacle profile | Update spectacle profile |
+| --- | --- |
+| Create spectacle profile: docs/screenshots/new-spectacle-profile.jpg | Update spectacle profile: docs/screenshots/edit-spectacle-profile.jpg |
+
+Orders and reports
+
+| Order list | Order details and status history |
+| --- | --- |
+| Order list: docs/screenshots/staff-orders.jpg | Order details and status history: docs/screenshots/order-details.jpg |
+
+| Create order | Customer delivery and order total |
+| --- | --- |
+| Create order: docs/screenshots/new-order.jpg | Customer delivery and order total: docs/screenshots/new-order-delivery.jpg |
+
+| Update order status | Stock and order reports |
+| --- | --- |
+| Update order status: docs/screenshots/edit-order.jpg | Stock and order reports: docs/screenshots/reports.jpg |
+
+Customer screens
+
+| Customer dashboard | Customer account |
+| --- | --- |
+| Customer dashboard: docs/screenshots/customer-dashboard.jpg | Customer account: docs/screenshots/customer-account.jpg |
+
+| Update own account | View own spectacle profile |
+| --- | --- |
+| Update own account: docs/screenshots/edit-customer-account.jpg | View own spectacle profile: docs/screenshots/customer-spectacle-profile.jpg |
+
+| My orders | View own order |
+| --- | --- |
+| My orders: docs/screenshots/customer-orders.jpg | View own order: docs/screenshots/customer-order-details.jpg |
+
+| Browse frames | Browse lenses |
+| --- | --- |
+| Browse frames: docs/screenshots/customer-frame-catalogue.jpg | Browse lenses: docs/screenshots/customer-lens-catalogue.jpg |
+
+| View frame details | View lens details |
+| --- | --- |
+| View frame details: docs/screenshots/customer-frame-details.jpg | View lens details: docs/screenshots/customer-lens-details.jpg |
 
 Run the project
 
