@@ -4,6 +4,18 @@ This is a degree group project for Meteor Eyewear. It lets staff manage frames, 
 
 The original project was done by the Pokémon group in 2024–2025 using Oracle and Microsoft Azure. Access to those accounts was lost. This version was rebuilt in 2026 from the remaining documents, HTML pages and images. It uses sample data, not the old customer records.
 
+Screenshots
+
+These screens use sample customer details.
+
+| Staff dashboard | Lens catalogue |
+| --- | --- |
+| Staff dashboard: docs/screenshots/staff-dashboard.png | Lens catalogue: docs/screenshots/lens-catalogue.png |
+
+| Customer spectacle profile | Order details |
+| --- | --- |
+| Customer spectacle profile: docs/screenshots/spectacle-profile.png | Order details: docs/screenshots/order-details.png |
+
 Run the project
 
 You need Java 17 or newer. Building from source needs a JDK and an internet connection the first time.
@@ -60,13 +72,37 @@ Trying the main flow
 
 Log in as staff. Open Customer and search for IC 000000000002. Check the spectacle profile, create an order, then update its status. Log out and use the customer account to view that order.
 
-The automated tests cover login, validation, access checks, product and profile changes, order updates and stock. Run mvnw.cmd verify to check them. See test notes (docs/VERIFICATION.md).
+QA & Testing
+
+All 64 automated tests passed locally and in GitHub Actions. The tests check:
+
+- Valid and invalid logins, required fields and duplicate accounts.
+- Staff permissions and customers being limited to their own records.
+- Frame, lens and spectacle-profile changes.
+- Order totals, delivery details, status changes and cancellation.
+- Two orders competing for the last frame: only one should succeed.
+
+Browser checks covered staff/customer login, customer search, order forms, live totals and saved data after restarting. Tests use a separate database, so they do not change the local demo records.
+
+Run mvnw.cmd verify on Windows or sh ./mvnw verify on macOS/Linux. See test notes (docs/VERIFICATION.md) and the GitHub checks (https://github.com/syahmiadib2020/spectacles-management-system/actions/workflows/verify.yml).
+
+Oracle and Azure deployment have not been tested.
 
 Notes about this version
 
 The original documents and personal data are kept out of this repository. The group is credited below. The code was rebuilt; it is not the recovered original source. Differences are listed in rebuild notes (docs/RECONSTRUCTION.md).
 
 Google/Facebook login, notifications, payments, image uploads, password recovery and staff account setup are not included. The Oracle profile and Dockerfile are starting points and have not been tested on Oracle or Azure. See database notes (docs/ORACLE-AND-AZURE.md).
+
+My contribution
+
+My documented work in the original group project covered:
+
+- The Update Account use-case description.
+- The use-case diagram.
+- Part of the overall project description in the SRS report.
+
+These contributions are recorded in the original project documents. The original project was group work; the team members are listed below. This repository also contains the rebuilt 2026 version, with differences explained in the rebuild notes.
 
 Original group
 
@@ -77,7 +113,3 @@ Original group
 - Nur Farah Izzati binti Mohd Azami
 
 This copy is prepared for Adib Syahmi's portfolio. Image sources and credits are in ATTRIBUTION.md (docs/ATTRIBUTION.md).
-
-Screenshot
-
-See docs/screenshots for pictures of the system.
