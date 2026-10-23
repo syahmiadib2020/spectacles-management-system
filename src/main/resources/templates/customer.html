@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Customer details')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div th:replace="~{fragments :: flash}">
+      </div>
+      <a class="back-link" th:href="@{/staff/customers}">← Back to customers</a>
+      <div class="page-heading top-space">
+        <div>
+          <div class="eyebrow" th:text="${'CUSTOMER · ' + #numbers.formatInteger(customer.id,4)}">
+          </div>
+          <h1 th:text="${customer.name}">
+          </h1>
+          <p th:text="${customer.email}">
+          </p>
+        </div>
+        <a class="button secondary" th:href="@{/staff/customers/{id}/edit(id=${customer.id})}">Edit account</a>
+      </div>
+      <div class="detail-grid">
+        <section class="panel">
+          <h2>Personal details</h2>
+          <dl class="details">
+            <div>
+              <dt>IC number</dt>
+              <dd th:text="${customer.ic}">
+              </dd>
+            </div>
+            <div>
+              <dt>Phone number</dt>
+              <dd th:text="${customer.phone}">
+              </dd>
+            </div>
+            <div>
+              <dt>Address</dt>
+              <dd th:text="${customer.address}">
+              </dd>
+            </div>
+          </dl>
+        </section>
+        <section class="panel warm">
+          <div class="eyebrow">SPECTACLE PROFILE</div>
+          <h2>Spectacle profile</h2>
+          <p th:if="${profile == null}">This customer does not have a spectacle profile yet. Create one before placing an order.</p>
+          <div th:if="${profile != null}" class="eye-summary">
+            <div>
+              <small>LEFT EYE</small>
+              <strong th:text="${profile.leftPower + ' D'}">
+              </strong>
+            </div>
+            <div>
+              <small>RIGHT EYE</small>
+              <strong th:text="${profile.rightPower + ' D'}">
+              </strong>
+            </div>
+          </div>
+          <a class="button dark" th:href="${profile == null} ? @{/staff/customers/{id}/profile/edit(id=${customer.id})} : @{/staff/customers/{id}/profile(id=${customer.id})}" th:text="${profile == null ? 'Create spectacle profile +' : 'View spectacle profile →'}">
+          </a>
+        </section>
+      </div>
+      <div class="section-heading">
+        <h2>Customer orders</h2>
+        <a th:if="${profile != null}" class="button primary" th:href="@{/staff/customers/{id}/orders/new(id=${customer.id})}">Create order +</a>
+      </div>
+      <section class="panel flush">
+        <div th:replace="~{fragments :: ordersTable(${customerOrders})}">
+        </div>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

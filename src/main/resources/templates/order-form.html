@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Create order')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">NEW CUSTOMER ORDER</div>
+          <h1>Create order</h1>
+          <p th:text="${customer.name}">
+          </p>
+        </div>
+        <a class="back-link" th:href="@{/staff/customers/{id}(id=${customer.id})}">← Back to customer</a>
+      </div>
+      <div class="notice warning" th:if="${profile == null}">Create a spectacle profile before placing an order. <a th:href="@{/staff/customers/{id}/profile/edit(id=${customer.id})}">Create profile →</a>
+      </div>
+      <section class="panel narrow">
+        <form th:action="@{/staff/customers/{id}/orders/new(id=${customer.id})}" method="post" th:object="${form}">
+          <div class="notice error" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <strong>Please check your details.</strong>
+            <ul>
+              <li th:each="e : ${#fields.globalErrors()}" th:text="${e}">
+              </li>
+            </ul>
+          </div>
+          <fieldset>
+            <legend>01 · Choose frame and lens</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="frameId">Frame</label>
+                <select id="frameId" th:field="*{frameId}" required data-price-select>
+                  <option value="">Choose an option</option>
+                  <option th:each="p : ${frames}" th:value="${p.id}" th:text="${p.id + ' · ' + p.model + ' — RM ' + #numbers.formatDecimal(p.price,1,2) + ' (' + p.quantity + ' available)'}" th:disabled="${p.quantity == 0}" th:attr="data-price=${p.price}">
+                  </option>
+                </select>
+                <small class="field-error" th:if="${#fields.hasErrors('frameId')}" th:errors="*{frameId}">
+                </small>
+              </div>
+              <div class="field">
+                <label for="lensId">Lens</label>
+                <select id="lensId" th:field="*{lensId}" required data-price-select>
+                  <option value="">Choose an option</option>
+                  <option th:each="p : ${lenses}" th:value="${p.id}" th:text="${p.id + ' · ' + p.model + ' — RM ' + #numbers.formatDecimal(p.price,1,2) + ' (' + p.quantity + ' available)'}" th:disabled="${p.quantity == 0}" th:attr="data-price=${p.price}">
+                  </option>
+                </select>
+                <small class="field-error" th:if="${#fields.hasErrors('lensId')}" th:errors="*{lensId}">
+                </small>
+              </div>
+              <div class="field ">
+                <label for="quantity">Number of pairs</label>
+                <input id="quantity" type="number" th:field="*{quantity}" required min="1" max="100" step="1" data-quantity>
+                <small class="field-error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
+                </small>
+              </div>
+              <div class="order-estimate">
+                <small>ESTIMATED TOTAL</small>
+                <strong id="order-estimate" aria-live="polite">Select your items</strong>
+                <small>Final price is checked when the order is saved.</small>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>02 · Delivery details</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="delivery">Ship to outlet?</label>
+                <select id="delivery" th:field="*{delivery}" required data-delivery>
+                  <option value="">Choose an option</option>
+                  <option value="OUTLET">Yes — collect at outlet</option>
+                  <option value="CUSTOMER">No — deliver to customer</option>
+                </select>
+                <small class="field-error" th:if="${#fields.hasErrors('delivery')}" th:errors="*{delivery}">
+                </small>
+              </div>
+            </div>
+            <div data-delivery-fields="OUTLET" th:hidden="${form.delivery != 'OUTLET'}">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="outlet">Outlet</label>
+                  <select id="outlet" th:field="*{outlet}"  data-conditional-required>
+                    <option value="">Choose an option</option>
+                    <option value="Merlimau">Merlimau</option>
+                  </select>
+                  <small class="field-error" th:if="${#fields.hasErrors('outlet')}" th:errors="*{outlet}">
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div data-delivery-fields="CUSTOMER" th:hidden="${form.delivery != 'CUSTOMER'}">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="shippingAddress">Customer delivery address</label>
+                  <textarea id="shippingAddress" th:field="*{shippingAddress}" rows="3" maxlength="500" data-conditional-required>
+                  </textarea>
+                  <small class="field-error" th:if="${#fields.hasErrors('shippingAddress')}" th:errors="*{shippingAddress}">
+                  </small>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="form-actions">
+            <button class="button primary" type="submit" th:disabled="${profile == null}">Create order →</button>
+            <a class="button secondary" th:href="@{/staff/customers/{id}(id=${customer.id})}">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

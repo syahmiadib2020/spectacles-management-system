@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Overview')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div th:replace="~{fragments :: flash}">
+      </div>
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow" th:text="${isStaff ? 'STAFF WORKSPACE' : 'YOUR EYEWEAR'}">
+          </div>
+          <h1>Welcome back, <span th:text="${viewer.nickname != null and !#strings.isEmpty(viewer.nickname) ? viewer.nickname : viewer.name}">
+            </span>.</h1>
+          <p th:text="${isStaff ? 'View customers, stock and orders.' : 'View your profile and check your orders.'}">
+          </p>
+        </div>
+        <a class="button primary" th:href="${isStaff} ? @{/staff/customers} : @{/catalog}">
+          <span th:text="${isStaff ? 'Find a customer →' : 'Explore frames →'}">
+          </span>
+        </a>
+      </div>
+      <section class="stats-grid">
+        <div class="stat">
+          <span>ACTIVE ORDERS</span>
+          <strong th:text="${activeOrders}">
+          </strong>
+          <small>Currently being prepared</small>
+        </div>
+        <div class="stat">
+          <span th:text="${isStaff ? 'CUSTOMERS' : 'MY ORDERS'}">
+          </span>
+          <strong th:text="${isStaff ? customerCount : orderCount}">
+          </strong>
+          <small th:text="${isStaff ? 'Registered in the system' : 'Across all order statuses'}">
+          </small>
+        </div>
+        <div class="stat">
+          <span>CATALOGUE</span>
+          <strong th:text="${productCount}">
+          </strong>
+          <small>Frame and lens models</small>
+        </div>
+      </section>
+      <section class="feature-band">
+        <div>
+          <div class="eyebrow">QUICK ACCESS</div>
+          <h2>Customer profiles<br>and orders</h2>
+          <p th:text="${isStaff ? 'Start with a customer. Check their spectacle profile, select a frame and lens, then follow their order through to completion.' : 'Browse the catalogue, review your spectacle profile and follow your order. Our staff can help you arrange your next pair.'}">
+          </p>
+          <a class="button dark" th:href="${isStaff} ? @{/staff/customers} : @{/spectacle-profile}">
+            <span th:text="${isStaff ? 'Manage customers →' : 'My spectacle profile →'}">
+            </span>
+          </a>
+        </div>
+        <img th:src="@{/images/spectacle.png}" alt="Sunglasses resting on a sandy beach" width="626" height="358">
+      </section>
+      <div class="section-heading">
+        <h2>Recent orders</h2>
+        <a th:href="@{/orders}">View all orders →</a>
+      </div>
+      <section class="panel flush">
+        <div th:replace="~{fragments :: ordersTable(${recentOrders})}">
+        </div>
+      </section>
+      <section class="panel low-stock" th:if="${isStaff and !#lists.isEmpty(lowStock)}">
+        <div class="section-heading">
+          <h2>Low stock</h2>
+          <span class="muted">5 or fewer remaining</span>
+        </div>
+        <div class="stock-list">
+          <a th:each="p : ${lowStock}" th:href="@{/catalog/{id}(id=${p.id})}">
+            <span th:text="${p.model}">
+            </span>
+            <span class="badge warning" th:text="${p.quantity + ' left'}">
+            </span>
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

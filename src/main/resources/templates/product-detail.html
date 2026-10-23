@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Product details')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <a class="back-link" th:href="@{/catalog(type=${product.type})}">← Back to catalogue</a>
+      <div class="detail-grid top-space">
+        <div class="product-visual">
+          <img th:src="${product.type == 'FRAME'} ? @{/images/frame.svg} : @{/images/lens.svg}" alt="Representative product illustration" width="420" height="300">
+          <span class="eyebrow">METEOR EYEWEAR COLLECTION</span>
+        </div>
+        <section class="panel">
+          <div class="eyebrow" th:text="${product.type + ' · ' + #numbers.formatInteger(product.id,4)}">
+          </div>
+          <h1 th:text="${product.model}">
+          </h1>
+          <p class="muted" th:text="${product.brand}">
+          </p>
+          <p class="price">RM <span th:text="${#numbers.formatDecimal(product.price,1,'COMMA',2,'POINT')}">
+            </span>
+          </p>
+          <dl class="details">
+            <div>
+              <dt>Available quantity</dt>
+              <dd th:text="${product.quantity}">
+              </dd>
+            </div>
+            <div>
+              <dt th:text="${product.type == 'FRAME' ? 'Frame shape' : 'Prescription'}">
+              </dt>
+              <dd th:text="${product.type == 'FRAME' ? product.frameShape : product.prescription}">
+              </dd>
+            </div>
+            <div>
+              <dt th:text="${product.type == 'FRAME' ? 'Frame colour' : 'Astigmatism'}">
+              </dt>
+              <dd th:text="${product.type == 'FRAME' ? product.frameColour : product.astigmatism}">
+              </dd>
+            </div>
+          </dl>
+          <div class="form-actions">
+            <a th:if="${isStaff}" class="button primary" th:href="@{/staff/products/{id}/edit(id=${product.id})}">Edit product</a>
+            <a th:if="${isStaff}" class="button secondary" th:href="@{/staff/customers}">Create a customer order →</a>
+          </div>
+          <p th:unless="${isStaff}" class="muted">Contact a staff member to arrange a pair using your spectacle profile.</p>
+        </section>
+      </div>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Update account')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">PERSONAL INFORMATION</div>
+          <h1>Update account</h1>
+          <p>Keep contact details up to date.</p>
+        </div>
+        <a class="back-link" th:href="${self} ? @{/account} : @{/staff/customers/{id}(id=${accountId})}">← Back to account</a>
+      </div>
+      <section class="panel narrow">
+        <form th:action="${self} ? @{/account/edit} : @{/staff/customers/{id}/edit(id=${accountId})}" method="post" th:object="${form}">
+          <div class="notice error" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <strong>Please check your details.</strong>
+            <ul>
+              <li th:each="e : ${#fields.globalErrors()}" th:text="${e}">
+              </li>
+            </ul>
+          </div>
+          <input type="hidden" th:field="*{version}">
+          <div class="form-grid">
+            <div class="field ">
+              <label for="name">Full name</label>
+              <input id="name" type="text" th:field="*{name}" required maxlength="100" autocomplete="name">
+              <small class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="nickname">Nick name (optional)</label>
+              <input id="nickname" type="text" th:field="*{nickname}" maxlength="60">
+              <small class="field-error" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="email">Email address</label>
+              <input id="email" type="email" th:field="*{email}" required maxlength="160" autocomplete="email">
+              <small class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="phone">Phone number</label>
+              <input id="phone" type="tel" th:field="*{phone}" required maxlength="20" autocomplete="tel">
+              <small class="field-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="ic">IC number</label>
+              <input id="ic" type="text" th:field="*{ic}" required inputmode="numeric" pattern="[0-9]{12}" maxlength="12" aria-describedby="ic-help">
+              <small class="field-error" th:if="${#fields.hasErrors('ic')}" th:errors="*{ic}">
+              </small>
+            </div>
+            <p class="field-hint" id="ic-help">12 digits without hyphens. For this demo, use fictional details.</p>
+            <div class="field full">
+              <label for="address">Address</label>
+              <textarea id="address" th:field="*{address}" rows="3" required maxlength="500" autocomplete="street-address">
+              </textarea>
+              <small class="field-error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">
+              </small>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Save changes</button>
+            <a class="button secondary" th:href="${self} ? @{/account} : @{/staff/customers/{id}(id=${accountId})}">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

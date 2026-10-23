@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Unable to complete request')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <section class="panel narrow error-page">
+        <div class="eyebrow">REQUEST ERROR</div>
+        <h1 th:text="${status == 403 ? 'Access restricted' : (status == 404 ? 'Page not found' : 'Unable to complete this request')}">
+        </h1>
+        <p th:text="${message != null and !#strings.isEmpty(message) ? message : 'The page may have moved, your session may have expired, or you may not have permission to open it.'}">
+        </p>
+        <a class="button primary" th:href="@{/}">Back to the system →</a>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

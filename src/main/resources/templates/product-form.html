@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Manage product')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">CATALOGUE MANAGEMENT</div>
+          <h1 th:text="${productId == null ? 'Add new product' : 'Edit product'}">
+          </h1>
+          <p>Enter the product details below.</p>
+        </div>
+        <a class="back-link" th:href="@{/catalog(type=${form.type})}">← Back to catalogue</a>
+      </div>
+      <section class="panel narrow">
+        <form th:action="${productId == null} ? @{/staff/products/new} : @{/staff/products/{id}/edit(id=${productId})}" th:object="${form}" method="post">
+          <div class="notice error" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <strong>Please check your details.</strong>
+            <ul>
+              <li th:each="e : ${#fields.globalErrors()}" th:text="${e}">
+              </li>
+            </ul>
+          </div>
+          <input type="hidden" th:field="*{version}">
+          <div class="form-grid">
+            <div class="field">
+              <label for="type">Product type</label>
+              <select id="type" th:field="*{type}" required data-product-type th:disabled="${productId != null}">
+                <option value="">Choose an option</option>
+                <option value="FRAME">FRAME</option>
+                <option value="LENS">LENS</option>
+              </select>
+              <small class="field-error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="model">Model name</label>
+              <input id="model" type="text" th:field="*{model}" required maxlength="100">
+              <small class="field-error" th:if="${#fields.hasErrors('model')}" th:errors="*{model}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="brand">Brand</label>
+              <input id="brand" type="text" th:field="*{brand}" required maxlength="80">
+              <small class="field-error" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="price">Price (RM)</label>
+              <input id="price" type="number" th:field="*{price}" required min="0.01" max="999999.99" step="0.01">
+              <small class="field-error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="quantity">Quantity in stock</label>
+              <input id="quantity" type="number" th:field="*{quantity}" required min="0" max="100000" step="1">
+              <small class="field-error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
+              </small>
+            </div>
+          </div>
+          <input type="hidden" th:if="${productId != null}" name="type" th:value="${form.type}">
+          <fieldset data-type-fields="FRAME" th:disabled="${form.type != 'FRAME'}" th:hidden="${form.type != 'FRAME'}">
+            <legend>Frame details</legend>
+            <div class="form-grid">
+              <div class="field ">
+                <label for="frameShape">Frame shape</label>
+                <input id="frameShape" type="text" th:field="*{frameShape}" required maxlength="60" placeholder="e.g. Round">
+                <small class="field-error" th:if="${#fields.hasErrors('frameShape')}" th:errors="*{frameShape}">
+                </small>
+              </div>
+              <div class="field ">
+                <label for="frameColour">Frame colour</label>
+                <input id="frameColour" type="text" th:field="*{frameColour}" required maxlength="60" placeholder="e.g. Tortoiseshell">
+                <small class="field-error" th:if="${#fields.hasErrors('frameColour')}" th:errors="*{frameColour}">
+                </small>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset data-type-fields="LENS" th:disabled="${form.type != 'LENS'}" th:hidden="${form.type != 'LENS'}">
+            <legend>Lens details</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="prescription">Prescription</label>
+                <select id="prescription" th:field="*{prescription}" required >
+                  <option value="">Choose an option</option>
+                  <option th:each="p : ${prescriptions}" th:value="${p}" th:text="${p}">
+                  </option>
+                </select>
+                <small class="field-error" th:if="${#fields.hasErrors('prescription')}" th:errors="*{prescription}">
+                </small>
+              </div>
+              <div class="field">
+                <label for="astigmatism">Astigmatism</label>
+                <select id="astigmatism" th:field="*{astigmatism}" required >
+                  <option value="">Choose an option</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <small class="field-error" th:if="${#fields.hasErrors('astigmatism')}" th:errors="*{astigmatism}">
+                </small>
+              </div>
+            </div>
+          </fieldset>
+          <div class="form-actions">
+            <button class="button primary" type="submit" th:text="${productId == null ? 'Add product' : 'Save changes'}">
+            </button>
+            <a class="button secondary" th:href="@{/catalog(type=${form.type})}">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

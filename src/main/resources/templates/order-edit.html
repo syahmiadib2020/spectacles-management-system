@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Update order')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">ORDER MANAGEMENT</div>
+          <h1 th:text="${'Update ME-' + #numbers.formatInteger(order.id,4)}">
+          </h1>
+          <p>Keep the customer informed with the latest order status.</p>
+        </div>
+        <a class="back-link" th:href="@{/orders/{id}(id=${order.id})}">← Back to order</a>
+      </div>
+      <section class="panel narrow">
+        <form th:action="@{/staff/orders/{id}/edit(id=${order.id})}" method="post" th:object="${form}">
+          <div class="notice error" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <strong>Please check your details.</strong>
+            <ul>
+              <li th:each="e : ${#fields.globalErrors()}" th:text="${e}">
+              </li>
+            </ul>
+          </div>
+          <input type="hidden" th:field="*{version}">
+          <div class="form-grid">
+            <div class="field">
+              <label for="status">Order status</label>
+              <select id="status" th:field="*{status}" required >
+                <option value="">Choose an option</option>
+                <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}">
+                </option>
+              </select>
+              <small class="field-error" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">
+              </small>
+            </div>
+            <div class="field full">
+              <label for="shippingAddress">Delivery address</label>
+              <textarea id="shippingAddress" th:field="*{shippingAddress}" rows="3" required maxlength="500" th:readonly="${order.delivery == 'OUTLET' or order.status == 'Shipped'}">
+              </textarea>
+              <small class="field-error" th:if="${#fields.hasErrors('shippingAddress')}" th:errors="*{shippingAddress}">
+              </small>
+            </div>
+          </div>
+          <p class="muted">Cancelling an eligible order restores its reserved stock. Completed and cancelled orders are closed.</p>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Save changes</button>
+            <a class="button secondary" th:href="@{/orders/{id}(id=${order.id})}">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

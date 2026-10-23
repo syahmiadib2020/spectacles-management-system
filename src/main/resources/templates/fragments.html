@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Meteor Eyewear Spectacles Management System — a reconstruction of a university group project.">
+    <title th:text="${title + ' · Meteor Eyewear'}">
+    </title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="icon" th:href="@{/images/favicon.svg}" type="image/svg+xml">
+  </head>
+  <body>
+    <header th:fragment="header" class="site-header">
+      <div class="header-inner">
+        <a class="brand" th:href="@{/}">
+          <img th:src="@{/images/logo.png}" alt="Meteor Eyewear" width="52" height="52">
+          <span>METEOR<small>EYEWEAR</small>
+          </span>
+        </a>
+        <nav aria-label="Main navigation" sec:authorize="isAuthenticated()">
+          <a th:href="@{/catalog(type='FRAME')}">FRAME</a>
+          <a th:href="@{/catalog(type='LENS')}">LENS</a>
+          <a th:href="${isStaff} ? @{/staff/customers} : @{/spectacle-profile}">SPECTACLE PROFILE</a>
+          <a th:href="@{/orders}">ORDER</a>
+          <a th:if="${isStaff}" th:href="@{/staff/customers}">CUSTOMER</a>
+          <a th:if="${isStaff}" th:href="@{/staff/reports}">REPORT</a>
+        </nav>
+        <div class="header-account" sec:authorize="isAuthenticated()">
+          <a th:href="@{/account}" class="account-link">
+            <span class="avatar" th:text="${#strings.substring(viewer.name,0,1)}">
+            </span>
+            <span th:text="${viewer.nickname != null and !#strings.isEmpty(viewer.nickname) ? viewer.nickname : viewer.name}">
+            </span>
+          </a>
+          <form th:action="@{/logout}" method="post">
+            <button class="text-button" type="submit">Log out</button>
+          </form>
+        </div>
+        <a sec:authorize="isAnonymous()" th:href="@{/about}" class="about-link">About the project ↗</a>
+      </div>
+      <div class="demo-strip" th:if="${demo}">
+        <span>DEGREE PROJECT RECONSTRUCTION</span>
+        <span>Local demo · Fictional records</span>
+      </div>
+    </header>
+    <div th:fragment="flash">
+      <div class="notice success" role="status" th:if="${success}" th:text="${success}">
+      </div>
+    </div>
+    <footer th:fragment="footer" class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <strong>METEOR EYEWEAR</strong>
+          <p>Spectacles Management System<br>Merlimau, Malaysia</p>
+          <small>Academic portfolio demonstration.</small>
+        </div>
+        <div>
+          <strong>SPECTACLES MANAGEMENT SYSTEM</strong>
+          <p>Frames. Lenses. Profiles. Orders.</p>
+          <a th:href="@{/about}">Project history &amp; reconstruction notes ↗</a>
+        </div>
+        <div>
+          <strong>POKÉMON GROUP</strong>
+          <p>Original degree project · 2024–2025<br>Reconstructed for portfolio review · 2026</p>
+          <small>Fictional data. No purchases or payments are processed.</small>
+        </div>
+      </div>
+    </footer>
+    <div th:fragment="ordersTable(items)" class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Items</th>
+            <th>Placed</th>
+            <th>Status</th>
+            <th>Total (RM)</th>
+            <th>
+              <span class="sr-only">Action</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="o : ${items}">
+            <td>
+              <strong th:text="${'ME-' + #numbers.formatInteger(o.id,4)}">
+              </strong>
+            </td>
+            <td>
+              <span th:text="${o.frameName}">
+              </span>
+              <small th:text="${o.lensName + ' · Qty ' + o.quantity}">
+              </small>
+            </td>
+            <td th:text="${#temporals.format(o.createdAt.atZone(T(java.time.ZoneId).of('Asia/Kuala_Lumpur')), 'dd MMM yyyy')}">
+            </td>
+            <td>
+              <span class="badge" th:classappend="${#strings.toLowerCase(#strings.replace(o.status,' ','-'))}" th:text="${o.status}">
+              </span>
+            </td>
+            <td class="money" th:text="${#numbers.formatDecimal(o.total,1,'COMMA',2,'POINT')}">
+            </td>
+            <td>
+              <a class="table-link" th:href="@{/orders/{id}(id=${o.id})}">View →</a>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(items)}">
+            <td colspan="6" class="empty">No orders to show yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

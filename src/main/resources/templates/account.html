@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('My account')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div th:replace="~{fragments :: flash}">
+      </div>
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">PERSONAL INFORMATION</div>
+          <h1>My account</h1>
+          <p>Your contact details, all in one place.</p>
+        </div>
+        <a class="button primary" th:href="@{/account/edit}">Edit account</a>
+      </div>
+      <section class="panel profile-panel">
+        <div class="profile-banner">
+          <span class="avatar large" th:text="${#strings.substring(account.name,0,1)}">
+          </span>
+          <div>
+            <h2 th:text="${account.name}">
+            </h2>
+            <p th:text="${account.email}">
+            </p>
+          </div>
+          <span class="badge" th:text="${account.role == 'STAFF' ? 'Staff' : 'Customer'}">
+          </span>
+        </div>
+        <dl class="details two-col">
+          <div>
+            <dt>Full name</dt>
+            <dd th:text="${account.name}">
+            </dd>
+          </div>
+          <div>
+            <dt>Nick name</dt>
+            <dd th:text="${#strings.isEmpty(account.nickname) ? '—' : account.nickname}">
+            </dd>
+          </div>
+          <div>
+            <dt>Phone number</dt>
+            <dd th:text="${account.phone}">
+            </dd>
+          </div>
+          <div>
+            <dt>IC number</dt>
+            <dd th:text="${account.ic}">
+            </dd>
+          </div>
+          <div>
+            <dt>Email address</dt>
+            <dd th:text="${account.email}">
+            </dd>
+          </div>
+          <div>
+            <dt>Address</dt>
+            <dd th:text="${account.address}">
+            </dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

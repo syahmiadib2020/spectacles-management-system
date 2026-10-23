@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Spectacle profile')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div th:replace="~{fragments :: flash}">
+      </div>
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">SPECTACLE PROFILE</div>
+          <h1 th:text="${customer.name}">
+          </h1>
+          <p>Current eye-power and prescription details.</p>
+        </div>
+        <div class="button-row" th:if="${isStaff}">
+          <a class="back-link" th:href="@{/staff/customers/{id}(id=${customer.id})}">← Customer</a>
+          <a class="button primary" th:href="@{/staff/customers/{id}/profile/edit(id=${customer.id})}" th:text="${profile == null ? 'Create profile +' : 'Edit profile'}">
+          </a>
+        </div>
+      </div>
+      <section class="panel" th:if="${profile == null}">
+        <div class="empty">
+          <h2>No spectacle profile yet.</h2>
+          <p>Your staff member can record your eye power and prescription details here.</p>
+        </div>
+      </section>
+      <section th:if="${profile != null}" class="panel profile-panel">
+        <div class="eye-summary large">
+          <div>
+            <small>LEFT EYE POWER</small>
+            <strong>
+              <span th:text="${profile.leftPower}">
+              </span>
+              <em>D</em>
+            </strong>
+          </div>
+          <div>
+            <small>RIGHT EYE POWER</small>
+            <strong>
+              <span th:text="${profile.rightPower}">
+              </span>
+              <em>D</em>
+            </strong>
+          </div>
+        </div>
+        <dl class="details two-col">
+          <div>
+            <dt>Prescription type</dt>
+            <dd th:text="${#strings.isEmpty(profile.prescription) ? 'Not specified' : profile.prescription}">
+            </dd>
+          </div>
+          <div>
+            <dt>Astigmatism</dt>
+            <dd th:text="${#strings.isEmpty(profile.astigmatism) ? 'Not specified' : profile.astigmatism}">
+            </dd>
+          </div>
+          <div>
+            <dt>Notes</dt>
+            <dd th:text="${#strings.isEmpty(profile.notes) ? '—' : profile.notes}">
+            </dd>
+          </div>
+          <div>
+            <dt>Last updated</dt>
+            <dd th:text="${#temporals.format(profile.updatedAt.atZone(T(java.time.ZoneId).of('Asia/Kuala_Lumpur')), 'dd MMM yyyy, HH:mm')}">
+            </dd>
+          </div>
+        </dl>
+        <div class="form-actions" th:if="${isStaff}">
+          <a class="button primary" th:href="@{/staff/customers/{id}/orders/new(id=${customer.id})}">Create order →</a>
+        </div>
+      </section>
+      <p class="quiet-note">This demo records the simplified eye-power fields from the degree project. It does not provide an eye examination or prescription advice.</p>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Log in')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <section class="auth-layout">
+        <div class="auth-story">
+          <div class="eyebrow">METEOR EYEWEAR</div>
+          <h1>Spectacles<br>Management System</h1>
+          <p>Manage customer profiles,<br>frames, lenses and orders.</p>
+          <img th:src="@{/images/login.png}" alt="Eyeglass frames displayed against coloured backgrounds" width="390" height="259">
+          <div class="story-caption">THE SPECTACLES MANAGEMENT SYSTEM</div>
+        </div>
+        <div class="auth-panel">
+          <div class="eyebrow">WELCOME BACK</div>
+          <h2>Log in</h2>
+          <p class="muted">Access your Meteor Eyewear account.</p>
+          <div th:replace="~{fragments :: flash}">
+          </div>
+          <div class="notice error" role="alert" th:if="${param.error}">Incorrect email or password.</div>
+          <div class="notice success" th:if="${param.logout}">You have been logged out.</div>
+          <div class="notice success" th:if="${param.updated}">Account updated. Log in with your new email address.</div>
+          <form th:action="@{/login}" method="post" class="stack">
+            <div class="field">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" required autocomplete="username" maxlength="160" placeholder="you@example.com">
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+            <button class="button primary wide" type="submit">Log in →</button>
+          </form>
+          <p class="auth-switch">Don't have an account? <a th:href="@{/signup}">Sign up</a>
+          </p>
+          <aside th:if="${demo}" class="demo-accounts">
+            <strong>EXPLORE THE DEMO</strong>
+            <p>Choose a role, then click Log in.</p>
+            <div class="button-row">
+              <button type="button" class="button secondary" data-demo="staff">Staff account</button>
+              <button type="button" class="button secondary" data-demo="customer">Customer account</button>
+            </div>
+            <small>All customer records are fictional.</small>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

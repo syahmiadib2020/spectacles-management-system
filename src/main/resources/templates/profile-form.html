@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Manage spectacle profile')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">SPECTACLE PROFILE</div>
+          <h1 th:text="${form.version == null ? 'Create spectacle profile' : 'Update spectacle profile'}">
+          </h1>
+          <p th:text="${customer.name}">
+          </p>
+        </div>
+        <a class="back-link" th:href="@{/staff/customers/{id}(id=${customer.id})}">← Back to customer</a>
+      </div>
+      <section class="panel narrow">
+        <form th:action="@{/staff/customers/{id}/profile/edit(id=${customer.id})}" method="post" th:object="${form}">
+          <div class="notice error" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <strong>Please check your details.</strong>
+            <ul>
+              <li th:each="e : ${#fields.globalErrors()}" th:text="${e}">
+              </li>
+            </ul>
+          </div>
+          <input type="hidden" th:field="*{version}">
+          <div class="form-grid">
+            <div class="field ">
+              <label for="leftPower">Left eye power (D)</label>
+              <input id="leftPower" type="number" th:field="*{leftPower}" required min="-30" max="30" step="0.01">
+              <small class="field-error" th:if="${#fields.hasErrors('leftPower')}" th:errors="*{leftPower}">
+              </small>
+            </div>
+            <div class="field ">
+              <label for="rightPower">Right eye power (D)</label>
+              <input id="rightPower" type="number" th:field="*{rightPower}" required min="-30" max="30" step="0.01">
+              <small class="field-error" th:if="${#fields.hasErrors('rightPower')}" th:errors="*{rightPower}">
+              </small>
+            </div>
+            <div class="field">
+              <label for="prescription">Prescription type (optional)</label>
+              <select id="prescription" th:field="*{prescription}"  >
+                <option value="">Choose an option</option>
+                <option th:each="p : ${prescriptions}" th:value="${p}" th:text="${p}">
+                </option>
+              </select>
+              <small class="field-error" th:if="${#fields.hasErrors('prescription')}" th:errors="*{prescription}">
+              </small>
+            </div>
+            <div class="field">
+              <label for="astigmatism">Astigmatism (optional)</label>
+              <select id="astigmatism" th:field="*{astigmatism}"  >
+                <option value="">Choose an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <small class="field-error" th:if="${#fields.hasErrors('astigmatism')}" th:errors="*{astigmatism}">
+              </small>
+            </div>
+            <div class="field full">
+              <label for="notes">Notes (optional)</label>
+              <textarea id="notes" th:field="*{notes}" rows="3" maxlength="500">
+              </textarea>
+              <small class="field-error" th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}">
+              </small>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Save changes</button>
+            <a class="button secondary" th:href="@{/staff/customers/{id}(id=${customer.id})}">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>

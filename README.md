@@ -1,0 +1,85 @@
+# Spectacles Management System
+
+This is a degree group project for Meteor Eyewear. It lets staff manage frames, lenses, customer spectacle profiles and orders. Customers can view the catalogue, update their account and check their own orders.
+
+The original project was done by the Pokémon group in 2024–2025 using Oracle and Microsoft Azure. Access to those accounts was lost. This version was rebuilt in 2026 from the remaining documents, HTML pages and images. It uses sample data, not the old customer records.
+
+## Run the project
+
+You need Java 17 or newer. Building from source needs a JDK and an internet connection the first time.
+
+On Windows:
+
+1. Double-click `Start-Demo.cmd`.
+2. Leave the window open.
+3. Open [http://localhost:8080](http://localhost:8080).
+4. Use the Staff or Customer button to fill in a demo account, then click Log in.
+5. Press Ctrl+C in the application window when finished.
+
+The launcher builds the project if the JAR file is missing. To build and test it yourself:
+
+```powershell
+.\mvnw.cmd verify
+java -jar target\meteor-eyewear-1.0.0.jar
+```
+
+On macOS or Linux, use `sh ./mvnw verify` and `java -jar target/meteor-eyewear-1.0.0.jar`.
+
+## Demo accounts
+
+| Role | Email | Password |
+| --- | --- | --- |
+| Staff | staff@meteor.example | StaffDemo2026! |
+| Customer | customer@meteor.example | CustomerDemo2026! |
+
+All demo customer details are made up. Customer IC `000000000002` already has a spectacle profile. IC `000000000003` has no profile yet.
+
+## Main functions
+
+- Register, view and update accounts.
+- Search for customers by IC number, name or email.
+- Add, view, edit and remove frames and lenses.
+- Record left and right eye power, prescription type and astigmatism.
+- Create an order with a frame and lens.
+- Arrange delivery to the Merlimau outlet or a customer address.
+- Update order status and view its history.
+- View stock and order reports.
+
+Staff manage products, customer profiles and orders. Customers can only access their own account, profile and orders.
+
+## Tools used
+
+- Java 17 and Spring Boot
+- Thymeleaf for the HTML pages
+- Spring Security for login and access checks
+- Spring Data JPA for database queries
+- H2 for the local database
+- JUnit and MockMvc for tests
+
+H2 saves data in the `data` folder, so changes remain after restarting. Oracle compatibility mode is enabled, but H2 is still a different database. No Oracle or Azure account is needed to run this demo.
+
+## Trying the main flow
+
+Log in as staff. Open Customer and search for IC `000000000002`. Check the spectacle profile, create an order, then update its status. Log out and use the customer account to view that order.
+
+The automated tests cover login, validation, access checks, product and profile changes, order updates and stock. Run `mvnw.cmd verify` to check them. See [test notes](docs/VERIFICATION.md).
+
+## Notes about this version
+
+The original documents and personal data are kept out of this repository. The group is credited below. The code was rebuilt; it is not the recovered original source. Differences are listed in [rebuild notes](docs/RECONSTRUCTION.md).
+
+Google/Facebook login, notifications, payments, image uploads, password recovery and staff account setup are not included. The Oracle profile and Dockerfile are starting points and have not been tested on Oracle or Azure. See [database notes](docs/ORACLE-AND-AZURE.md).
+
+## Original group
+
+- Ammar Yusuf bin Moh Bakery
+- Adib Syahmi bin Azman
+- Nurul Afrina binti Abdul Rahim
+- Wan Nur Syahira binti Che Wan Abd Aziz
+- Nur Farah Izzati binti Mohd Azami
+
+This copy is prepared for Adib Syahmi's portfolio. Image sources and credits are in [ATTRIBUTION.md](docs/ATTRIBUTION.md).
+
+## Screenshot
+
+![Staff dashboard](docs/screenshots/staff-dashboard.png)

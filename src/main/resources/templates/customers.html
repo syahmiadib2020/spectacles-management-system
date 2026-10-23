@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="~{fragments :: head('Customers')}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header th:replace="~{fragments :: header}">
+    </header>
+    <main id="main" class="container">
+      <div th:replace="~{fragments :: flash}">
+      </div>
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">CUSTOMER MANAGEMENT</div>
+          <h1>Find a customer</h1>
+          <p>Look up an IC number, name or email to manage profiles and orders.</p>
+        </div>
+        <a class="button secondary" th:href="@{/signup}">Register customer +</a>
+      </div>
+      <form class="search-form customer-search" th:action="@{/staff/customers}" method="get">
+        <label for="q" class="sr-only">Customer IC number, name or email</label>
+        <input id="q" name="q" type="search" th:value="${q}" placeholder="Enter IC number, name or email" maxlength="160">
+        <button class="button primary" type="submit">Find customer →</button>
+        <a th:if="${!#strings.isEmpty(q)}" th:href="@{/staff/customers}">Clear</a>
+      </form>
+      <section class="panel flush">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>IC number</th>
+                <th>Phone</th>
+                <th>Account</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="c : ${customers}">
+                <td>
+                  <strong th:text="${c.name}">
+                  </strong>
+                  <small th:text="${c.email}">
+                  </small>
+                </td>
+                <td th:text="${c.ic}">
+                </td>
+                <td th:text="${c.phone}">
+                </td>
+                <td>
+                  <a class="table-link" th:href="@{/staff/customers/{id}(id=${c.id})}">View customer →</a>
+                </td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(customers)}">
+                <td colspan="4" class="empty">No customers match this search.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <script th:src="@{/js/app.js}" defer>
+    </script>
+  </body>
+</html>
